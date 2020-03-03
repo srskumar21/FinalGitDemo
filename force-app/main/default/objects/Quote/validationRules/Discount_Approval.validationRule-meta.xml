@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Discount_Approval</fullName>
+    <active>true</active>
+    <errorConditionFormula>OR(AND(
+$UserRole.Name = &quot;GSS NA Sales Rep - Software&quot;,
+Max_Discount__c &gt; 0.05 ,
+NOT( ISPICKVAL( Status , &quot;Draft&quot;) ) ,
+NOT( ISPICKVAL( Status , &quot;Needs Review&quot;) ) ,
+NOT( ISPICKVAL( Status , &quot;Rejected&quot;) ) ,
+NOT( ISPICKVAL( Status , &quot;In Review&quot;) )
+),
+AND(
+ OR($UserRole.Name = &quot;GSS NA Sales Rep - CC&quot; ,$UserRole.Name = &quot;GSS NA Sales Rep - AE&quot; ,$UserRole.Name = &quot;GSS NA Sales Rep - Client Comms&quot; ,$UserRole.Name = &quot;GSS NA Sales Rep - Hardware&quot; ),
+Max_Discount__c &gt; 0.05 ,  ISCHANGED(Status),
+OR(Text(PRIORVALUE(Status)) = &quot;Draft&quot;,
+	Text(PRIORVALUE(Status)) = &quot;Needs Review&quot;,
+	Text(PRIORVALUE(Status)) = &quot;In Review&quot;)
+,
+OR(ISPICKVAL( Status , &quot;Approved&quot;),
+   ISPICKVAL( Status , &quot;Presented&quot;),
+   ISPICKVAL( Status , &quot;Accepted&quot;),
+   ISPICKVAL( Status , &quot;Denied&quot;),
+   ISPICKVAL( Status , &quot;Expired&quot;)
+)
+)
+)</errorConditionFormula>
+    <errorMessage>If there is a Quote Line Item on this Quote with a Discount over 5%, you must click the “Submit for Approval” button to progress the status further</errorMessage>
+</ValidationRule>

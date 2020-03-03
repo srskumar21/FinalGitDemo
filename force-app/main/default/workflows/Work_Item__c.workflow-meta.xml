@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <rules>
+        <fullName>Record Closed Date</fullName>
+        <actions>
+            <name>Stamp_Closed_Date</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>records closed date for Work Items when status contains Closed</description>
+        <formula>CONTAINS(TEXT(Status__c), &quot;Closed&quot;)</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+</Workflow>
